@@ -2,6 +2,7 @@ services:
   - type: web
     name: password-manager-web
     env: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
@@ -17,3 +18,4 @@ services:
         sync: false
 databases:
   - name: pm-db
+    plan: free
