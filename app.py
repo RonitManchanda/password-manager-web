@@ -21,9 +21,11 @@ def create_app():
     # Prefer managed Postgres in production; fall back to local SQLite
     db_url = os.environ.get("DATABASE_URL")
     if db_url:
-        # Render/Railway sometimes provide postgres:// — SQLAlchemy expects postgresql://
+        # Normalize and force psycopg v3 driver for SQLAlchemy
         if db_url.startswith("postgres://"):
-            db_url = db_url.replace("postgres://", "postgresql://", 1)
+            db_url = db_url.replace("postgres://", "postgresql+psycopg://", 1)
+        elif db_url.startswith("postgresql://"):
+            db_url = db_url.replace("postgresql://", "postgresql+psycopg://", 1)
         app.config["SQLALCHEMY_DATABASE_URI"] = db_url
     else:
         os.makedirs(app.instance_path, exist_ok=True)
