@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Password Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body { font-family: system-ui, Arial, sans-serif; margin: 0; background:#0f172a; color:#e2e8f0;}
+      header, main { max-width: 900px; margin: 0 auto; padding: 16px; }
+      header { display:flex; align-items:center; justify-content:space-between; }
+      a, button { cursor:pointer; }
+      .card { background:#111827; border:1px solid #1f2937; border-radius:12px; padding:16px; margin:16px 0; }
+      .btn { background:#2563eb; border:none; color:white; padding:10px 14px; border-radius:8px; }
+      .btn.secondary { background:#334155; }
+      .input { width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0b1220; color:#e2e8f0; }
+      .row { display:flex; gap:12px; }
+      .row > * { flex:1; }
+      .flash { padding:10px 12px; border-radius:8px; margin:8px 0; background:#1f2937; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div><strong>🔐 Password Manager</strong></div>
+      <nav>
+        <a href="/dashboard" style="color:#93c5fd; margin-right:12px;">Dashboard</a>
+        <a href="/logout" style="color:#93c5fd;">Logout</a>
+      </nav>
+    </header>
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

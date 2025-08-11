@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Two‑Factor Verification</h2>
+  <p>{{ prompt }}</p>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.code(class_="input") }}
+    <div style="margin-top:12px;">
+      {{ form.submit(class_="btn") }}
+      <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

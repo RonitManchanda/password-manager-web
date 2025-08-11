@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: password-manager-web
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pm-db
+          property: connectionString
+      - key: SMTP_SENDER_EMAIL
+        sync: false
+      - key: SMTP_APP_PASSWORD
+        sync: false
+databases:
+  - name: pm-db

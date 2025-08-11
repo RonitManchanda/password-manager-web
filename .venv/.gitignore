@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+instance/
+*.db
+email_config.json
+.env

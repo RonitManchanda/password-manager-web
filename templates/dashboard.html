@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Your Vault</h2>
+  {% if not has_master %}
+    <form method="post">
+      <label>Enter your master password to unlock your vault for this session</label>
+      <input class="input" name="master_password" type="password" required>
+      <div style="margin-top:12px;"><button class="btn" type="submit">Unlock</button></div>
+    </form>
+  {% else %}
+    <a class="btn" href="{{ url_for('add') }}">+ Add Entry</a>
+  {% endif %}
+</div>
+
+<div class="card">
+  {% if entries %}
+    <table width="100%" cellpadding="8">
+      <tr><th align="left">Account</th><th align="left">Username</th><th>Actions</th></tr>
+      {% for e in entries %}
+        <tr>
+          <td>{{ e.account }}</td>
+          <td>{{ e.username }}</td>
+          <td align="right">
+            <a class="btn" href="{{ url_for('reveal', entry_id=e.id) }}">Reveal</a>
+            <form style="display:inline" method="post" action="{{ url_for('delete', entry_id=e.id) }}">
+              <button class="btn secondary" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <em>No entries yet.</em>
+  {% endif %}
+</div>
+{% endblock %}
