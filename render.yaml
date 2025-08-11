@@ -2,6 +2,7 @@ services:
   - type: web
     name: password-manager-web
     env: python
+    pythonVersion: 3.12.4
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
