@@ -6,6 +6,7 @@
     {% if not has_master %}
       <p class="subtle">Unlock your vault with your master password. It never leaves your browser.</p>
       <form method="post" class="grid">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div>
           <label>Master password</label>
           <input class="input" name="master_password" type="password" required placeholder="••••••••" />
@@ -49,7 +50,6 @@
             <div class="row-actions">
               <a class="btn sm" href="{{ url_for('reveal', entry_id=e.id) }}">Reveal</a>
               <form method="post" action="{{ url_for('delete', entry_id=e.id) }}">
-                <!-- Add CSRF token for security -->
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn sm secondary" type="submit" onclick="return confirm('Delete this entry?')">
                   Delete

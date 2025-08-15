@@ -1,24 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="center-page">
-  <div class="card auth-card">
-    <h2>Log in</h2>
-    <p class="subtle">Welcome back. Enter your email and password to continue.</p>
-    <form method="post" class="grid">
-      {{ form.hidden_tag() }}
-      <div>
-        <label>Email</label>
-        {{ form.email(class_="input", placeholder="you@example.com") }}
-      </div>
-      <div>
-        <label>Password</label>
-        {{ form.login_password(class_="input", placeholder="••••••••") }}
-      </div>
-      <div style="display:flex; gap:10px; justify-content:flex-end;">
-        <a class="btn secondary" href="{{ url_for('register') }}">Create account</a>
-        {{ form.submit(class_="btn", value="Log in") }}
-      </div>
-    </form>
-  </div>
+<div class="card" style="max-width:400px; margin:auto;">
+  <h2>Login</h2>
+  <form method="post" class="grid">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div>
+      <label>Email</label>
+      <input class="input" name="email" type="email" required />
+    </div>
+    <div>
+      <label>Password</label>
+      <input class="input" name="password" type="password" required />
+    </div>
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button class="btn" type="submit">Login</button>
+    </div>
+  </form>
 </div>
 {% endblock %}

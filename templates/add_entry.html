@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card" style="max-width:720px; margin:28px auto;">
-  <h2>Add Entry</h2>
-  <p class="subtle">Store a username and password securely in your encrypted vault.</p>
-  <form method="post" class="grid two">
-    {{ form.hidden_tag() }}
+<div class="card">
+  <h2>Add New Entry</h2>
+  <form method="post" class="grid">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div>
       <label>Account</label>
-      {{ form.account(class_="input", placeholder="e.g., Gmail") }}
+      <input class="input" name="account" required />
     </div>
     <div>
       <label>Username</label>
-      {{ form.username(class_="input", placeholder="your@email.com") }}
+      <input class="input" name="username" required />
     </div>
-    <div style="grid-column: 1 / -1;">
+    <div>
       <label>Password</label>
-      {{ form.password(class_="input", placeholder="••••••••") }}
+      <input class="input" name="password" type="password" required />
     </div>
-    <div style="grid-column: 1 / -1; display:flex; gap:10px; justify-content:flex-end;">
-      <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
-      {{ form.submit(class_="btn", value="Save entry") }}
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button class="btn" type="submit">Save</button>
     </div>
   </form>
 </div>
