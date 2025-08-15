@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card">
+<div class="card" style="max-width:720px; margin:28px auto;">
   <h2>Add Entry</h2>
-  <form method="post">
+  <p class="subtle">Store a username and password securely in your encrypted vault.</p>
+  <form method="post" class="grid two">
     {{ form.hidden_tag() }}
-    <label>Account</label>
-    {{ form.account(class_="input") }}
-    <label>Username</label>
-    {{ form.username(class_="input") }}
-    <label>Password</label>
-    {{ form.password(class_="input") }}
-    <div style="margin-top:12px;">
-      {{ form.submit(class_="btn") }}
-      <a class="btn secondary" href="{{ url_for('dashboard') }}">Back</a>
+    <div>
+      <label>Account</label>
+      {{ form.account(class_="input", placeholder="e.g., Gmail") }}
+    </div>
+    <div>
+      <label>Username</label>
+      {{ form.username(class_="input", placeholder="your@email.com") }}
+    </div>
+    <div style="grid-column: 1 / -1;">
+      <label>Password</label>
+      {{ form.password(class_="input", placeholder="••••••••") }}
+    </div>
+    <div style="grid-column: 1 / -1; display:flex; gap:10px; justify-content:flex-end;">
+      <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
+      {{ form.submit(class_="btn", value="Save entry") }}
     </div>
   </form>
 </div>

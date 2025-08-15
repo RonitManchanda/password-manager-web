@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card">
+<div class="card" style="max-width:720px; margin:28px auto;">
   <h2>Create account</h2>
-  <form method="post">
+  <p class="subtle">Your master password never leaves your device; it encrypts your vault.</p>
+  <form method="post" class="grid two">
     {{ form.hidden_tag() }}
-    <label>Email</label>
-    {{ form.email(class_="input") }}
-    <label>Login Password</label>
-    {{ form.login_password(class_="input") }}
-    <label>Master Password (used to encrypt your vault)</label>
-    {{ form.master_password(class_="input") }}
-    <div style="margin-top:12px;">
-      {{ form.submit(class_="btn") }}
+    <div>
+      <label>Email</label>
+      {{ form.email(class_="input", placeholder="you@example.com") }}
+    </div>
+    <div>
+      <label>Login Password</label>
+      {{ form.login_password(class_="input", placeholder="At least 8 characters") }}
+    </div>
+    <div style="grid-column: 1 / -1;">
+      <label>Master Password (used to encrypt your vault)</label>
+      {{ form.master_password(class_="input", placeholder="At least 8 characters") }}
+      <div class="subtle" style="margin-top:6px;">Tip: Use a unique, strong master password. You’ll enter it once per session.</div>
+    </div>
+    <div style="grid-column: 1 / -1; display:flex; gap:10px; justify-content:flex-end; margin-top:4px;">
       <a class="btn secondary" href="{{ url_for('login') }}">Have an account? Log in</a>
+      {{ form.submit(class_="btn", value="Create account") }}
     </div>
   </form>
 </div>

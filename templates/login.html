@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card">
+<div class="card" style="max-width:640px; margin:28px auto;">
   <h2>Log in</h2>
-  <form method="post">
+  <p class="subtle">Welcome back. Enter your email and password to continue.</p>
+  <form method="post" class="grid">
     {{ form.hidden_tag() }}
-    <label>Email</label>
-    {{ form.email(class_="input") }}
-    <label>Password</label>
-    {{ form.login_password(class_="input") }}
-    <div style="margin-top:12px;">
-      {{ form.submit(class_="btn") }}
+    <div>
+      <label>Email</label>
+      {{ form.email(class_="input", placeholder="you@example.com") }}
+    </div>
+    <div>
+      <label>Password</label>
+      {{ form.login_password(class_="input", placeholder="••••••••") }}
+    </div>
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
       <a class="btn secondary" href="{{ url_for('register') }}">Create account</a>
+      {{ form.submit(class_="btn", value="Log in") }}
     </div>
   </form>
 </div>
