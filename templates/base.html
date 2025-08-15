@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script>
-      // theme toggle persisted in localStorage
       const applyTheme = t => document.documentElement.setAttribute('data-theme', t);
       try { applyTheme(localStorage.getItem('theme') || 'dark'); } catch(e){}
       function toggleTheme(){

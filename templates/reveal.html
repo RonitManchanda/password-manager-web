@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card" style="max-width:560px; margin:28px auto;">
-  <h2>Two‑Factor Verification</h2>
-  <p class="subtle">{{ prompt }}</p>
-  <form method="post" class="grid">
-    {{ form.hidden_tag() }}
-    <div>
-      <label>6‑digit code</label>
-      {{ form.code(class_="input", placeholder="123456") }}
-    </div>
-    <div style="display:flex; gap:10px; justify-content:flex-end;">
-      <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
-      {{ form.submit(class_="btn", value="Verify") }}
-    </div>
-  </form>
+<div class="center-page">
+  <div class="card auth-card">
+    <h2>Two‑Factor Verification</h2>
+    <p class="subtle">{{ prompt }}</p>
+    <form method="post" class="grid">
+      {{ form.hidden_tag() }}
+      <div>
+        <label>6‑digit code</label>
+        {{ form.code(class_="input", placeholder="123456") }}
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
+        {{ form.submit(class_="btn", value="Verify") }}
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

@@ -62,6 +62,16 @@ body {
 .card h2 { margin: 0 0 10px; font-size: 22px; }
 .subtle { color: var(--muted); font-size: 14px; }
 
+/* ====== Auth page helpers (center & size) ====== */
+.center-page {
+  /* Centers the content block within available viewport space below the nav */
+  min-height: calc(100vh - 160px);
+  display: grid;
+  place-items: center;
+}
+.auth-card { width: 520px; max-width: 92vw; padding: 28px; }
+.auth-card.wide { width: 680px; }
+
 /* ====== Form elements ====== */
 label { display:block; margin:10px 0 6px; font-size:14px; color:var(--muted); }
 .input, select, textarea {
