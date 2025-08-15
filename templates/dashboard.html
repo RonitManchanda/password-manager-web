@@ -26,9 +26,9 @@
     <h2>Security Status</h2>
     <div class="subtle">2FA is required when revealing passwords. Email delivery uses your configured SMTP sender.</div>
     <ul class="subtle" style="margin-top:10px; line-height:1.7;">
-      <li>End‑to‑end encryption with your master key (Fernet).</li>
-      <li>Per‑user vault salt (PBKDF2).</li>
-      <li>One‑time codes for sensitive actions.</li>
+      <li>End-to-end encryption with your master key (Fernet).</li>
+      <li>Per-user vault salt (PBKDF2).</li>
+      <li>One-time codes for sensitive actions.</li>
     </ul>
   </div>
 </div>
@@ -49,7 +49,11 @@
             <div class="row-actions">
               <a class="btn sm" href="{{ url_for('reveal', entry_id=e.id) }}">Reveal</a>
               <form method="post" action="{{ url_for('delete', entry_id=e.id) }}">
-                <button class="btn sm secondary" type="submit" onclick="return confirm('Delete this entry?')">Delete</button>
+                <!-- Add CSRF token for security -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn sm secondary" type="submit" onclick="return confirm('Delete this entry?')">
+                  Delete
+                </button>
               </form>
             </div>
           </td>

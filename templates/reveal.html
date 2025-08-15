@@ -3,18 +3,31 @@
 <div class="center-page">
   <div class="card auth-card">
     <h2>Two‑Factor Verification</h2>
-    <p class="subtle">{{ prompt }}</p>
-    <form method="post" class="grid">
-      {{ form.hidden_tag() }}
+
+    {% if decrypted %}
+      <p class="subtle">{{ prompt }}</p>
       <div>
-        <label>6‑digit code</label>
-        {{ form.code(class_="input", placeholder="123456") }}
+        <label>Decrypted password</label>
+        <input class="input" type="text" value="{{ decrypted }}" readonly
+               onclick="this.select();" />
       </div>
-      <div style="display:flex; gap:10px; justify-content:flex-end;">
-        <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
-        {{ form.submit(class_="btn", value="Verify") }}
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:12px;">
+        <a class="btn" href="{{ url_for('dashboard') }}">Back to dashboard</a>
       </div>
-    </form>
+    {% else %}
+      <p class="subtle">{{ prompt }}</p>
+      <form method="post" class="grid">
+        {{ form.hidden_tag() }}
+        <div>
+          <label>6‑digit code</label>
+          {{ form.code(class_="input", placeholder="123456") }}
+        </div>
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+          <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
+          {{ form.submit(class_="btn", value="Verify") }}
+        </div>
+      </form>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
