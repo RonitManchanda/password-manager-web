@@ -51,15 +51,35 @@ Built using **Python (Flask)**, **PostgreSQL**, and deployed on **Render**.
 
 ## Project Structure
 ```
-password-manager-web/
-├── app.py # Main Flask app
-├── models.py # Database models
-├── forms.py # Flask-WTF forms
-├── templates/ # HTML templates
-├── static/ # CSS, JS, images
-├── requirements.txt # Python dependencies
-├── Procfile # Render deployment instructions
-├── .gitignore
-└── README.md
+password_manager_web/
+│
+├── assets/                     # Live demo screenshots
+│   ├── add_entry.png
+│   ├── dashboard.png
+│   ├── login1.png
+│   └── register.png
+│
+├── static/
+│   └── css/
+│       └── style.css           # Custom styling for the app
+│
+├── templates/                  # HTML templates for Flask
+│   ├── add_entry.html
+│   ├── base.html
+│   ├── dashboard.html
+│   ├── login.html
+│   ├── register.html
+│   └── reveal.html
+│
+├── app.py                      # Main Flask application
+├── crypto_util.py              # Encryption and decryption utilities
+├── models.py                   # Database models
+│
+├── Procfile                    # Deployment configuration for Render
+├── README.md                   # Project documentation
+├── render.yaml                 # Render-specific deployment settings
+├── requirements.txt            # Python dependencies
+├── runtime.txt                 # Python runtime version
+└── .gitignore                  # Ignored files for Git
 ```
 
