@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="center-page">
-  <div class="card auth-card" style="margin:0; width:100%; max-width:560px;">
+  <div class="card auth-card">
     <h2>Log in</h2>
     <p class="subtle">Welcome back. Enter your email and password to continue.</p>
 
@@ -16,8 +16,7 @@
         <input class="input" name="password" type="password" placeholder="••••••••" required />
       </div>
 
-      <!-- Buttons: side by side on desktop, stacked on mobile -->
-      <div class="actions" style="display:flex; gap:10px; justify-content:flex-end;">
+      <div class="actions">
         <a class="btn secondary" href="{{ url_for('register') }}">Create account</a>
         <button class="btn" type="submit">Log in</button>
       </div>

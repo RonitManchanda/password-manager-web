@@ -18,18 +18,18 @@
   </head>
   <body>
     <div class="container">
-      <div class="nav">
+      <nav class="nav" aria-label="Main">
         <div class="brand">
           <div class="badge">🔐</div>
           <h1>Password Manager</h1>
         </div>
         <div class="links">
           <a href="{{ url_for('dashboard') }}">Dashboard</a>
-          <span class="divider"></span>
+          <span class="divider" aria-hidden="true"></span>
           <a href="{{ url_for('logout') }}">Logout</a>
           <button class="toggle" onclick="toggleTheme()" title="Toggle theme">Theme</button>
         </div>
-      </div>
+      </nav>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}

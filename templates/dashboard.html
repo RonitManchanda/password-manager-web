@@ -11,12 +11,12 @@
           <label>Master password</label>
           <input class="input" name="master_password" type="password" required placeholder="••••••••" />
         </div>
-        <div class="actions" style="display:flex; gap:8px; justify-content:flex-end;">
+        <div class="actions">
           <button class="btn" type="submit">Unlock</button>
         </div>
       </form>
     {% else %}
-      <div class="actions" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <div class="actions">
         <a class="btn" href="{{ url_for('add') }}">＋ Add Entry</a>
         <span class="subtle">Vault unlocked for this session</span>
       </div>
@@ -37,28 +37,30 @@
 <div class="card">
   <h2>Stored Accounts</h2>
   {% if entries %}
-    <table class="table">
-      <thead>
-        <tr><th>Account</th><th>Username</th><th style="text-align:right;">Actions</th></tr>
-      </thead>
-      <tbody>
-      {% for e in entries %}
-        <tr>
-          <td><strong>{{ e.account }}</strong></td>
-          <td><span class="subtle">{{ e.username }}</span></td>
-          <td>
-            <div class="row-actions">
-              <a class="btn sm" href="{{ url_for('reveal', entry_id=e.id) }}">Reveal</a>
-              <form method="post" action="{{ url_for('delete', entry_id=e.id) }}">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button class="btn sm secondary" type="submit" onclick="return confirm('Delete this entry?')">Delete</button>
-              </form>
-            </div>
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>Account</th><th>Username</th><th style="text-align:right;">Actions</th></tr>
+        </thead>
+        <tbody>
+        {% for e in entries %}
+          <tr>
+            <td><strong>{{ e.account }}</strong></td>
+            <td><span class="subtle">{{ e.username }}</span></td>
+            <td>
+              <div class="row-actions">
+                <a class="btn sm" href="{{ url_for('reveal', entry_id=e.id) }}">Reveal</a>
+                <form method="post" action="{{ url_for('delete', entry_id=e.id) }}">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="btn sm secondary" type="submit" onclick="return confirm('Delete this entry?')">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% else %}
     <div class="empty">
       <div class="emoji">🗃️</div>

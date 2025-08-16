@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="center-page">
-  <div class="card auth-card wide" style="margin:0; width:100%; max-width:560px;">
+  <div class="card auth-card wide">
     <h2>Create account</h2>
     <p class="subtle">Your master password never leaves your device; it encrypts your vault.</p>
 
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <div class="actions" style="grid-column:1 / -1; display:flex; gap:10px; justify-content:flex-end; margin-top:4px;">
+      <div class="actions" style="grid-column:1 / -1; margin-top:4px;">
         <a class="btn secondary" href="{{ url_for('login') }}">Have an account? Log in</a>
         {{ form.submit(class_="btn", value="Create account") }}
       </div>
