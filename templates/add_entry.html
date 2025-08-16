@@ -16,7 +16,8 @@
       <label>Password</label>
       <input class="input" name="password" type="password" required />
     </div>
-    <div style="display:flex; gap:8px; justify-content:flex-end;">
+    <div class="actions">
+      <a class="btn secondary" href="{{ url_for('dashboard') }}">Cancel</a>
       <button class="btn" type="submit">Save</button>
     </div>
   </form>

@@ -11,12 +11,12 @@
           <label>Master password</label>
           <input class="input" name="master_password" type="password" required placeholder="••••••••" />
         </div>
-        <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <div class="actions">
           <button class="btn" type="submit">Unlock</button>
         </div>
       </form>
     {% else %}
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <div class="actions" style="justify-content:flex-start;">
         <a class="btn" href="{{ url_for('add') }}">＋ Add Entry</a>
         <span class="subtle" style="align-self:center;">Vault unlocked for this session</span>
       </div>

@@ -4,23 +4,19 @@
   <div class="card auth-card">
     <h2>Log in</h2>
     <p class="subtle">Welcome back. Enter your email and password to continue.</p>
-
     <form method="post" class="grid">
-      {{ form.hidden_tag() }}
-
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div>
         <label>Email</label>
-        {{ form.email(class_="input", placeholder="you@example.com") }}
+        <input class="input" name="email" type="email" placeholder="you@example.com" required />
       </div>
-
       <div>
         <label>Password</label>
-        {{ form.login_password(class_="input", placeholder="••••••••") }}
+        <input class="input" name="password" type="password" placeholder="••••••••" required />
       </div>
-
-      <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <div class="actions">
         <a class="btn secondary" href="{{ url_for('register') }}">Create account</a>
-        {{ form.submit(class_="btn", value="Log in") }}
+        <button class="btn" type="submit">Log in</button>
       </div>
     </form>
   </div>

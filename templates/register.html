@@ -19,7 +19,7 @@
         {{ form.master_password(class_="input", placeholder="At least 8 characters") }}
         <div class="subtle" style="margin-top:6px;">Tip: Use a unique, strong master password. You’ll enter it once per session.</div>
       </div>
-      <div style="grid-column: 1 / -1; display:flex; gap:10px; justify-content:flex-end; margin-top:4px;">
+      <div class="actions" style="grid-column: 1 / -1; margin-top:4px;">
         <a class="btn secondary" href="{{ url_for('login') }}">Have an account? Log in</a>
         {{ form.submit(class_="btn", value="Create account") }}
       </div>
