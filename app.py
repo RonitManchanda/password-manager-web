@@ -8,6 +8,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from flask_session import Session
 from flask_limiter import Limiter
@@ -50,8 +51,13 @@ def create_app():
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
         WTF_CSRF_TIME_LIMIT=1800,  # CSRF token lifetime
+        # ✅ allow CSRF even if some clients/proxies drop the Referer header
+        WTF_CSRF_SSL_STRICT=False,
     )
     os.makedirs(app.config["SESSION_FILE_DIR"], exist_ok=True)
+
+    # Ensure the app knows it's behind a proxy (Render) and treats requests as HTTPS
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
     # Init extensions
     db.init_app(app)
@@ -77,7 +83,8 @@ def create_app():
         force_https=True,
         strict_transport_security=True,
         frame_options="DENY",
-        referrer_policy="no-referrer",
+        # ⬇ allow same-origin Referer so Flask-WTF can validate HTTPS CSRF
+        referrer_policy="strict-origin-when-cross-origin",
         session_cookie_secure=True,
         content_security_policy_nonce_in=["script-src"],
     )
@@ -200,9 +207,6 @@ def index():
     return redirect(url_for("login"))
 
 
-from flask_limiter import Limiter  # noqa: E402  (already imported; keeps linters happy)
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
@@ -225,9 +229,6 @@ def register():
         flash("Account created. You are logged in.", "success")
         return redirect(url_for("dashboard"))
     return render_template("register.html", form=form)
-
-
-from flask_limiter.util import get_remote_address  # noqa: E402
 
 
 @app.route("/login", methods=["GET", "POST"])
