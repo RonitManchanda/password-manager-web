@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="center-page">
-  <div class="card auth-card">
+  <div class="card auth-card" style="margin:0; width:100%; max-width:560px;">
     <h2>Log in</h2>
     <p class="subtle">Welcome back. Enter your email and password to continue.</p>
+
     <form method="post" class="grid">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div>
@@ -14,7 +15,9 @@
         <label>Password</label>
         <input class="input" name="password" type="password" placeholder="••••••••" required />
       </div>
-      <div class="actions">
+
+      <!-- Buttons: side by side on desktop, stacked on mobile -->
+      <div class="actions" style="display:flex; gap:10px; justify-content:flex-end;">
         <a class="btn secondary" href="{{ url_for('register') }}">Create account</a>
         <button class="btn" type="submit">Log in</button>
       </div>

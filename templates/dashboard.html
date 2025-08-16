@@ -11,14 +11,14 @@
           <label>Master password</label>
           <input class="input" name="master_password" type="password" required placeholder="••••••••" />
         </div>
-        <div class="actions">
+        <div class="actions" style="display:flex; gap:8px; justify-content:flex-end;">
           <button class="btn" type="submit">Unlock</button>
         </div>
       </form>
     {% else %}
-      <div class="actions" style="justify-content:flex-start;">
+      <div class="actions" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
         <a class="btn" href="{{ url_for('add') }}">＋ Add Entry</a>
-        <span class="subtle" style="align-self:center;">Vault unlocked for this session</span>
+        <span class="subtle">Vault unlocked for this session</span>
       </div>
     {% endif %}
   </div>
@@ -51,9 +51,7 @@
               <a class="btn sm" href="{{ url_for('reveal', entry_id=e.id) }}">Reveal</a>
               <form method="post" action="{{ url_for('delete', entry_id=e.id) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button class="btn sm secondary" type="submit" onclick="return confirm('Delete this entry?')">
-                  Delete
-                </button>
+                <button class="btn sm secondary" type="submit" onclick="return confirm('Delete this entry?')">Delete</button>
               </form>
             </div>
           </td>
