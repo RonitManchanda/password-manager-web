@@ -5,32 +5,27 @@
     <title>Password Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script>
-      const applyTheme = t => document.documentElement.setAttribute('data-theme', t);
-      try { applyTheme(localStorage.getItem('theme') || 'dark'); } catch(e){}
-      function toggleTheme(){
-        const curr = document.documentElement.getAttribute('data-theme') || 'dark';
-        const next = curr === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-        try { localStorage.setItem('theme', next); } catch(e){}
-      }
-    </script>
   </head>
   <body>
     <div class="container">
-      <nav class="nav" aria-label="Main">
+      <!-- Top navigation -->
+      <div class="nav">
         <div class="brand">
           <div class="badge">🔐</div>
           <h1>Password Manager</h1>
         </div>
         <div class="links">
           <a href="{{ url_for('dashboard') }}">Dashboard</a>
-          <span class="divider" aria-hidden="true"></span>
+          <span class="divider"></span>
           <a href="{{ url_for('logout') }}">Logout</a>
-          <button class="toggle" onclick="toggleTheme()" title="Toggle theme">Theme</button>
+          <!-- Theme toggle button (CSP-safe, external script will hook it) -->
+          <button id="theme-toggle" class="toggle" type="button" aria-pressed="false">
+            Theme
+          </button>
         </div>
-      </nav>
+      </div>
 
+      <!-- Flash messages -->
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           {% for category, message in messages %}
@@ -39,7 +34,11 @@
         {% endif %}
       {% endwith %}
 
+      <!-- Page-specific content -->
       {% block content %}{% endblock %}
     </div>
+
+    <!-- Load external JS (CSP-safe) -->
+    <script defer src="{{ url_for('static', filename='js/theme.js') }}"></script>
   </body>
 </html>
