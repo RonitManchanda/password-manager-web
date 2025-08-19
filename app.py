@@ -51,19 +51,16 @@ def create_app():
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
         WTF_CSRF_TIME_LIMIT=1800,  # CSRF token lifetime
-        # ✅ allow CSRF even if some clients/proxies drop the Referer header
-        WTF_CSRF_SSL_STRICT=False,
+        WTF_CSRF_SSL_STRICT=False,  # allow CSRF if referer is stripped by proxy/UA
     )
     os.makedirs(app.config["SESSION_FILE_DIR"], exist_ok=True)
 
-    # Ensure the app knows it's behind a proxy (Render) and treats requests as HTTPS
+    # behind proxy (Render) so HTTPS/host are detected correctly
     app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
     # Init extensions
     db.init_app(app)
     Session(app)
-
-    # CSRF protection
     CSRFProtect(app)
 
     # Rate limits
@@ -73,7 +70,7 @@ def create_app():
     csp = {
         "default-src": "'self'",
         "img-src": ["'self'", "data:"],
-        "style-src": ["'self'", "'unsafe-inline'"],  # you use inline styles
+        "style-src": ["'self'", "'unsafe-inline'"],
         "script-src": ["'self'"],
         "font-src": ["'self'", "data:"],
     }
@@ -83,7 +80,6 @@ def create_app():
         force_https=True,
         strict_transport_security=True,
         frame_options="DENY",
-        # ⬇ allow same-origin Referer so Flask-WTF can validate HTTPS CSRF
         referrer_policy="strict-origin-when-cross-origin",
         session_cookie_secure=True,
         content_security_policy_nonce_in=["script-src"],
@@ -184,17 +180,25 @@ def _verify_one_time_code(prefix: str, submitted: str) -> bool:
 
 
 def _store_session_fernet_key(master_password: str, user: User):
-    """Derive Fernet key from master password and user's salt; store base64 key server-side."""
-    key = derive_key(master_password, user.kdf_salt)             # bytes
-    session["fernet_key_b64"] = base64.urlsafe_b64encode(key).decode()  # str
+    """
+    Derive Fernet key from master password and user's salt and store it (base64 text) in session.
+
+    IMPORTANT: derive_key() already returns a urlsafe **base64-encoded** 32-byte key (as bytes).
+    We should NOT base64-encode it again. Just decode to str and save.
+    """
+    key_b64_bytes = derive_key(master_password, user.kdf_salt)  # already base64 bytes
+    session["fernet_key_b64"] = key_b64_bytes.decode("ascii")   # store as text
+    session.modified = True
 
 
 def _get_fernet_from_session() -> Fernet | None:
     b64 = session.get("fernet_key_b64")
     if not b64:
         return None
+    if isinstance(b64, bytes):
+        b64 = b64.decode("ascii", "ignore")
     try:
-        return Fernet(b64.encode())
+        return Fernet(b64.encode("ascii"))
     except Exception:
         return None
 
@@ -225,7 +229,7 @@ def register():
         db.session.commit()
 
         session["user_id"] = user.id
-        _store_session_fernet_key(form.master_password.data, user)  # store derived key, not the password
+        _store_session_fernet_key(form.master_password.data, user)  # derived key, not the password
         flash("Account created. You are logged in.", "success")
         return redirect(url_for("dashboard"))
     return render_template("register.html", form=form)
@@ -361,7 +365,6 @@ def reveal(entry_id):
             return redirect(url_for("dashboard"))
 
         session.pop("reveal_entry_id", None)
-        # IMPORTANT: render on page; do NOT flash/store plaintext in session
         return render_template("reveal.html", decrypted=pw, prompt="Password revealed")
 
     return render_template("reveal.html", form=form, prompt="Enter the 6-digit code")
